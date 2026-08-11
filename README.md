@@ -1,336 +1,178 @@
-# Sales Data Analysis with Python, Pandas & Excel
+# Sales Data Analysis & Excel Reporting
 
-A beginner-friendly, portfolio-ready mini project for learning practical data analysis with **Python**, **Pandas**, and **Microsoft Excel**.
+An end-to-end portfolio project that turns a deliberately imperfect retail sales dataset into a reproducible analytical report and an interactive Excel dashboard. The workflow uses Python and Pandas for inspection, cleaning, validation, KPI calculation, and export; Excel is used for the final business-facing presentation.
 
-The goal of this project is not only to learn syntax. The goal is to build a complete workflow similar to a small real-world data analysis task: load raw sales data, inspect it, clean it, analyze it, calculate business KPIs, and create an Excel report/dashboard that can be shown on GitHub and included in a resume.
+![Sales dashboard](screenshots/sales_dashboard.png)
 
----
+## Business results
 
-## Project Status
+| KPI | Result |
+| --- | ---: |
+| Gross sales | $453,359.22 |
+| Discounts | $23,867.05 |
+| Net revenue | $429,492.17 |
+| Unique orders | 797 |
+| Units sold | 2,703 |
+| Average order value | $538.89 |
+| Average selling price | $158.89 |
+| Effective discount rate | 5.26% |
 
-**Current phase:** Project setup and fundamentals
+Key findings:
 
-Planned final status:
+- **Desk Lamp** was the top-selling product by units.
+- **Laptop** generated the highest product revenue.
+- **Computers** was the highest-revenue category.
+- **San Francisco** was the highest-revenue known city.
+- **August 2025** was the strongest revenue month.
 
-- [ ] Project environment created
-- [ ] Python virtual environment configured
-- [ ] Pandas installed
-- [ ] Excel support libraries installed
-- [ ] Raw sales dataset prepared
-- [ ] Dataset inspected with Pandas
-- [ ] Data quality issues identified
-- [ ] Data cleaned
-- [ ] Exploratory analysis completed
-- [ ] Business KPIs calculated
-- [ ] Excel analysis completed
-- [ ] Pivot Tables created
-- [ ] Charts created
-- [ ] Final Excel report generated
-- [ ] Python automation script completed
-- [ ] README updated with results
-- [ ] Screenshots added
-- [ ] Repository prepared for portfolio use
+## Project objective
 
----
+The project answers a practical question: how can raw order-line data be transformed into reliable, auditable business insights? The source workbook contains 1,295 rows and 11 columns for synthetic 2025 retail transactions, including intentional duplicates, missing values, invalid quantities, invalid prices, out-of-range discounts, date problems, and category mismatches.
 
-## Project Scenario
+The completed pipeline:
 
-Imagine that a retail business has provided a sales spreadsheet containing its order history.
+1. Profiles the raw data and identifies quality issues.
+2. Applies documented cleaning rules without modifying the raw workbook.
+3. Validates the cleaned dataset with assertions.
+4. Calculates line-level financial fields and business KPIs.
+5. Builds product, category, city, month, and payment summaries.
+6. Exports reproducible Excel reports and a presentation-ready dashboard.
+7. Runs automated integration tests against the expected results.
 
-The dataset may contain information such as:
+## Data-quality decisions
 
-| Column | Description |
-|---|---|
-| `Order_ID` | Unique identifier for each order |
-| `Date` | Order date |
-| `Customer` | Customer name or ID |
-| `Product` | Product name |
-| `Category` | Product category |
-| `City` | Customer/order city |
-| `Quantity` | Number of units sold |
-| `Unit_Price` | Price per unit |
-| `Discount` | Applied discount |
-| `Payment_Method` | Payment method |
+| Issue | Treatment |
+| --- | --- |
+| Exact duplicate rows | Removed |
+| Missing city or payment method | Recovered from another line in the same order; otherwise labeled `Unknown` |
+| Non-numeric, zero, or negative quantity | Row removed |
+| Zero or negative unit price | Replaced with the median valid price for the same product |
+| Discount outside 0–1 | Row removed |
+| Invalid or out-of-scope date | Recovered from the same order; unrecoverable row removed |
+| Product/category mismatch | Replaced using an approved product-to-category mapping |
 
-The business wants answers to questions such as:
+After cleaning, the dataset contains **1,275 order lines**, **797 unique orders**, and no remaining exact duplicates or missing values.
 
-- How much total revenue was generated?
-- How many orders were placed?
-- Which products sold the most?
-- Which products generated the most revenue?
-- Which categories performed best?
-- Which cities generated the most sales?
-- What was the average order value?
-- How did sales change over time?
-- Which payment methods were used most?
-- How much revenue was lost due to discounts?
-
-This project will answer these questions using Python, Pandas, and Excel.
-
----
-
-## Main Learning Goals
-
-By completing this project, I aim to learn:
-
-### Python for Data Analysis
-
-- Working with Python files and Jupyter notebooks
-- Importing libraries
-- Variables and basic data types
-- Functions
-- File paths
-- Basic debugging
-
-### Pandas
-
-- `Series`
-- `DataFrame`
-- `read_excel()`
-- `read_csv()`
-- `head()`
-- `tail()`
-- `shape`
-- `columns`
-- `dtypes`
-- `info()`
-- `describe()`
-- Selecting rows and columns
-- Filtering
-- Sorting
-- Missing values
-- Duplicate records
-- Type conversion
-- Date/time processing
-- Creating calculated columns
-- `groupby()`
-- Aggregation
-- `value_counts()`
-- `pivot_table()`
-- Exporting results to Excel
-
-### Excel
-
-- Tables
-- Sorting and filtering
-- Basic formulas
-- `SUM`
-- `AVERAGE`
-- `MIN`
-- `MAX`
-- `COUNT`
-- `COUNTIF`
-- `SUMIF`
-- `SUMIFS`
-- `IF`
-- `XLOOKUP`
-- Pivot Tables
-- Charts
-- Conditional Formatting
-- Basic dashboard design
-
-### Git & GitHub
-
-- Creating a repository
-- Project folder organization
-- `.gitignore`
-- Commits
-- Commit messages
-- Pushing changes
-- Maintaining a clean project history
-- Writing portfolio-friendly documentation
-
----
-
-## Planned Project Structure
+## Repository structure
 
 ```text
-sales-data-analysis/
-│
+.
 ├── data/
-│   ├── raw/
-│   │   └── sales_data.xlsx
-│   │
-│   └── processed/
-│       └── cleaned_sales_data.xlsx
-│
+│   ├── raw/sales_data.xlsx
+│   └── processed/cleaned_sales_data.xlsx
+├── docs/
+│   ├── GIT_GUIDE.md
+│   ├── LEARNING_ROADMAP.md
+│   ├── PROJECT_PLAN.md
+│   ├── SETUP_GUIDE.md
+│   └── START_HERE_FA.md
 ├── notebooks/
-│   ├── 01_data_inspection.ipynb
+│   ├── 01_data_inspection_and_quality_checks.ipynb
 │   ├── 02_data_cleaning.ipynb
 │   └── 03_sales_analysis.ipynb
-│
-├── src/
-│   └── sales_analysis.py
-│
 ├── reports/
-│   └── sales_report.xlsx
-│
+│   ├── sales_report.xlsx
+│   └── sales_dashboard.xlsx
 ├── screenshots/
-│   └── .gitkeep
-│
-├── docs/
-│   ├── PROJECT_PLAN.md
-│   ├── LEARNING_ROADMAP.md
-│   ├── SETUP_GUIDE.md
-│   └── GIT_GUIDE.md
-│
-├── .gitignore
-├── requirements.txt
-└── README.md
+│   └── sales_dashboard.png
+├── src/
+│   ├── generate_sales_data.py
+│   └── sales_analysis.py
+├── tests/
+│   └── test_sales_analysis.py
+├── README.md
+└── requirements.txt
 ```
 
----
+## Setup
 
-## Project Workflow
+Python 3.10 or newer is recommended. From the project root in PowerShell:
 
-The project will follow this pipeline:
-
-```text
-Raw Excel Data
-      ↓
-Data Inspection
-      ↓
-Data Cleaning
-      ↓
-Data Transformation
-      ↓
-Exploratory Data Analysis
-      ↓
-Business KPI Calculation
-      ↓
-Excel Reporting
-      ↓
-Dashboard / Charts
-      ↓
-Automated Final Report
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install --upgrade pip
+python -m pip install -r requirements.txt
 ```
 
----
+The core Python dependencies are `pandas`, `openpyxl`, `jupyter`, and `matplotlib`.
 
-## Planned KPIs
+## Reproduce the analysis
 
-The final analysis should include at least:
+To recreate the source data when needed:
 
-1. Total Revenue
-2. Total Orders
-3. Total Units Sold
-4. Average Order Value
-5. Average Selling Price
-6. Total Discount
-7. Top-Selling Product
-8. Highest-Revenue Product
-9. Highest-Revenue Category
-10. Highest-Revenue City
-11. Monthly Revenue
-12. Revenue by Category
-13. Revenue by City
-14. Revenue by Payment Method
-
----
-
-## Example Calculated Columns
-
-The dataset may include calculated values such as:
-
-```text
-Gross_Sales = Quantity × Unit_Price
+```powershell
+python src/generate_sales_data.py
 ```
 
-If `Discount` is represented as a decimal percentage:
+To run the complete cleaning and analysis pipeline:
 
-```text
-Discount_Amount = Gross_Sales × Discount
+```powershell
+python src/sales_analysis.py
 ```
 
-Then:
+The command recreates:
 
-```text
-Net_Revenue = Gross_Sales - Discount_Amount
+- `data/processed/cleaned_sales_data.xlsx`, including a `Cleaning_Log` sheet.
+- `reports/sales_report.xlsx`, including the KPI summary, cleaned data, and five analytical tables.
+
+The analytical script deliberately re-reads the persisted cleaned workbook before calculating financial results. This keeps the automated output identical to the notebook workflow at the Excel serialization boundary. Monetary values are rounded to two decimals at order-line level.
+
+## Run the automated tests
+
+```powershell
+python -m unittest discover -s tests -v
 ```
 
-These calculations will first be understood manually and later automated with Pandas.
+The tests verify the raw-data baseline, cleaning output, audit-log counts, financial KPIs, business rankings, 12-month coverage, and revenue reconciliation across every analytical table.
 
----
+## Notebook guide
 
-## Technologies
+- `01_data_inspection_and_quality_checks.ipynb` — structure, types, missing values, duplicates, ranges, and anomaly discovery.
+- `02_data_cleaning.ipynb` — cleaning rules, explanations, validation assertions, and cleaned-workbook export.
+- `03_sales_analysis.ipynb` — calculated columns, KPI definitions, grouped analyses, reconciliations, and report export.
 
-- Python 3
-- Pandas
-- OpenPyXL
-- Jupyter Notebook
-- Microsoft Excel
-- Git
-- GitHub
-- Visual Studio Code
+The notebooks are intended for learning and explanation. `src/sales_analysis.py` is the production-style, reproducible version of the workflow.
 
-Optional later additions:
+## Excel deliverables
 
-- Matplotlib
-- Plotly
-- NumPy
+`sales_report.xlsx` contains seven sheets:
 
----
+- `Summary`
+- `Cleaned_Data`
+- `Monthly_Sales`
+- `Product_Analysis`
+- `Category_Analysis`
+- `City_Analysis`
+- `Payment_Analysis`
 
-## Expected Final Deliverables
+`sales_dashboard.xlsx` presents the main KPIs and trends with four charts and formula-driven supporting tables.
 
-At the end of the project, this repository should contain:
+## KPI definitions
 
-- Original raw dataset
-- Cleaned dataset
-- Data cleaning notebook
-- Analysis notebook
-- Reusable Python analysis script
-- Final Excel report
-- Dashboard screenshots
-- Complete README
-- Requirements file
-- Clear Git history
+- **Gross sales:** `Quantity × Unit Price`
+- **Discount amount:** `Gross Sales × Discount Rate`
+- **Net revenue:** `Gross Sales − Discount Amount`
+- **Average order value:** `Net Revenue ÷ Unique Orders`
+- **Average selling price:** `Net Revenue ÷ Units Sold`
+- **Effective discount rate:** `Discount Amount ÷ Gross Sales`
 
----
+## Tools and skills demonstrated
 
-## Portfolio Goal
+- Python, Pandas, and reusable functions
+- Data profiling, cleaning, imputation, and validation
+- Grouping, aggregation, ranking, and KPI design
+- Excel import/export with multiple worksheets
+- Dashboard design and business communication
+- Automated integration testing with `unittest`
+- Git-based, reproducible project organization
 
-This project is intended to become a small but complete portfolio project demonstrating practical experience with:
+## Limitations and next steps
 
-**Python • Pandas • Excel • Data Cleaning • Data Analysis • Reporting • Git • GitHub**
+The dataset is synthetic, covers one calendar year, and uses USD. Results describe the observed data but do not prove that discounts caused changes in sales. A small `Unknown` group is retained so unrecoverable order-level values remain visible rather than being silently invented.
 
-Suggested resume title:
+Possible extensions include schema validation, command-line input/output options, logging, SQL storage, customer-level analysis, forecasting, and a Power BI or Tableau version of the dashboard.
 
-> **Sales Data Analysis & Excel Reporting — Python, Pandas, Excel**
+## Portfolio summary
 
-Suggested resume description after completion:
-
-> Analyzed and cleaned retail sales data using Python and Pandas, calculated key business metrics, performed exploratory data analysis, and generated an automated Excel reporting workbook with summary tables, Pivot Tables, and charts.
-
-The final resume description should only be used after the corresponding features have actually been implemented.
-
----
-
-## Important Project Rule
-
-The purpose of this repository is **learning by building**.
-
-Every important line of code should be understood before moving forward.
-
-The project should not become a collection of copied code that cannot be explained during an interview.
-
-For every new concept, the learning process should answer:
-
-1. What is it?
-2. Why do we need it?
-3. What problem does it solve?
-4. How does the syntax work?
-5. How are we using it in this project?
-6. What common mistakes should we avoid?
-
----
-
-## Next Step
-
-Start with:
-
-`docs/SETUP_GUIDE.md`
-
-Then continue with:
-
-`docs/LEARNING_ROADMAP.md`
+Built a reproducible Python/Pandas sales-analysis pipeline that cleaned and validated 1,295 raw order lines, produced an auditable multi-sheet Excel report and dashboard, reconciled $429K in net revenue across five business dimensions, and added automated integration tests for data quality and KPI accuracy.
