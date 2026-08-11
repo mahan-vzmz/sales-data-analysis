@@ -67,7 +67,7 @@ After cleaning, the dataset contains **1,275 order lines**, **797 unique orders*
 │   ├── SETUP_GUIDE.md
 │   └── START_HERE_FA.md
 ├── notebooks/
-│   ├── 01_data_inspection_and_quality_checks.ipynb
+│   ├── 01_data_inspection.ipynb
 │   ├── 02_data_cleaning.ipynb
 │   └── 03_sales_analysis.ipynb
 ├── reports/
@@ -86,7 +86,7 @@ After cleaning, the dataset contains **1,275 order lines**, **797 unique orders*
 
 ## Setup
 
-Python 3.10 or newer is recommended. From the project root in PowerShell:
+Python 3.11 or newer is recommended. From the project root in PowerShell:
 
 ```powershell
 python -m venv .venv
@@ -95,7 +95,7 @@ python -m pip install --upgrade pip
 python -m pip install -r requirements.txt
 ```
 
-The core Python dependencies are `pandas`, `openpyxl`, `jupyter`, and `matplotlib`.
+The core Python dependencies are `pandas`, `openpyxl`, `jupyter`.
 
 ## Reproduce the analysis
 
