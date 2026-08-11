@@ -65,11 +65,13 @@ The completed pipeline:
 │   ├── raw/sales_data.xlsx
 │   └── processed/cleaned_sales_data.xlsx
 ├── docs/
+│   ├── DATA_DICTIONARY.md
 │   ├── GIT_GUIDE.md
 │   ├── LEARNING_ROADMAP.md
 │   ├── PROJECT_PLAN.md
 │   ├── SETUP_GUIDE.md
-│   └── START_HERE_FA.md
+│   ├── START_HERE_FA.md
+│   └── obsidian/
 ├── notebooks/
 │   ├── 01_data_inspection.ipynb
 │   ├── 02_data_cleaning.ipynb
