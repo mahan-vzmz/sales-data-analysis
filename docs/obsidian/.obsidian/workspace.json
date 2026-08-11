@@ -1,0 +1,210 @@
+{
+  "main": {
+    "id": "a65bd30b959bdd47",
+    "type": "split",
+    "children": [
+      {
+        "id": "c5878cf8b931a9ac",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "954e8bf3709c8e42",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "سوالات مصاحبه برای پروژه تحلیل فروش.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "سوالات مصاحبه برای پروژه تحلیل فروش"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "f38b3db727812c6f",
+    "type": "split",
+    "children": [
+      {
+        "id": "4ad0d7af19e0b6d2",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "8ec1ae5c28769d2f",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "4bfba56512621a50",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "4e8d7ef17de6c968",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "d1271c3af27f48d0",
+    "type": "split",
+    "children": [
+      {
+        "id": "98fa15a88a7599c2",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "c8f31ebf71b0a357",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "سوالات مصاحبه برای پروژه تحلیل فروش.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for سوالات مصاحبه برای پروژه تحلیل فروش"
+            }
+          },
+          {
+            "id": "2520cbc87ef6596f",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "سوالات مصاحبه برای پروژه تحلیل فروش.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from سوالات مصاحبه برای پروژه تحلیل فروش"
+            }
+          },
+          {
+            "id": "b81b9b93bfc60146",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "520b0803581ca380",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
+            }
+          },
+          {
+            "id": "86023bb35a001104",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "سوالات مصاحبه برای پروژه تحلیل فروش.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline of سوالات مصاحبه برای پروژه تحلیل فروش"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false
+    }
+  },
+  "active": "954e8bf3709c8e42",
+  "lastOpenFiles": [
+    "خروجی گرفتن از پانداس به اکسل.md",
+    "سوالات مصاحبه برای پروژه تحلیل فروش.md",
+    "تبدیل نوتبوک به اسکریپت پایتون.md",
+    "نمودارها در اکسل.md",
+    "پیوت تیبل.md",
+    "فرمول‌های کاربردی اکسل در تحلیل داده.md",
+    "گروه‌بندی داده‌ها.md",
+    "توابع تجمعی.md",
+    "تحلیل تاریخ و زمان در پانداس.md",
+    "ساخت ستون‌های محاسباتی جدید.md",
+    "مرتب‌سازی داده‌ها در پانداس.md",
+    "فیلتر کردن داده‌ها در پانداس.md",
+    "خواندن فایل اکسل در پایتون.md",
+    "تبدیل انواع داده.md",
+    "پاکسازی متون.md",
+    "مدیریت داده‌های تکراری.md",
+    "مدیریت داده‌های گمشده.md",
+    "بررسی اولیه داده‌ها.md",
+    "Template - Concept.md",
+    "Pandas DataFrame.md",
+    "Sales Data Analysis MOC.md"
+  ]
+}
