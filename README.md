@@ -131,7 +131,7 @@ The tests verify the raw-data baseline, cleaning output, audit-log counts, finan
 
 ## 📓 Notebook guide
 
-- 🔍 `01_data_inspection_and_quality_checks.ipynb` — structure, types, missing values, duplicates, ranges, and anomaly discovery.
+- 🔍 `01_data_inspection.ipynb` — structure, types, missing values, duplicates, ranges, and anomaly discovery.
 - 🧼 `02_data_cleaning.ipynb` — cleaning rules, explanations, validation assertions, and cleaned-workbook export.
 - 🧮 `03_sales_analysis.ipynb` — calculated columns, KPI definitions, grouped analyses, reconciliations, and report export.
 

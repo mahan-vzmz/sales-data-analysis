@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "سوالات مصاحبه برای پروژه تحلیل فروش.md",
+                "file": "تعریف داده و دیتاست.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "سوالات مصاحبه برای پروژه تحلیل فروش"
+              "title": "تعریف داده و دیتاست"
             }
           }
         ]
@@ -94,7 +94,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "سوالات مصاحبه برای پروژه تحلیل فروش.md",
+                "file": "تعریف داده و دیتاست.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -104,7 +104,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for سوالات مصاحبه برای پروژه تحلیل فروش"
+              "title": "Backlinks for تعریف داده و دیتاست"
             }
           },
           {
@@ -113,12 +113,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "سوالات مصاحبه برای پروژه تحلیل فروش.md",
+                "file": "تعریف داده و دیتاست.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links from سوالات مصاحبه برای پروژه تحلیل فروش"
+              "title": "Outgoing links from تعریف داده و دیتاست"
             }
           },
           {
@@ -156,13 +156,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "سوالات مصاحبه برای پروژه تحلیل فروش.md",
+                "file": "تعریف داده و دیتاست.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of سوالات مصاحبه برای پروژه تحلیل فروش"
+              "title": "Outline of تعریف داده و دیتاست"
             }
           }
         ]
@@ -185,8 +185,15 @@
   },
   "active": "954e8bf3709c8e42",
   "lastOpenFiles": [
-    "خروجی گرفتن از پانداس به اکسل.md",
+    "Sales Data Analysis MOC.md",
+    "شمارش مقادیر.md",
+    "Pandas Series.md",
+    "مفاهیم پایه پایتون برای پانداس.md",
+    "تعریف داده و دیتاست.md",
+    "بررسی اولیه داده‌ها.md",
+    "Template - Concept.md",
     "سوالات مصاحبه برای پروژه تحلیل فروش.md",
+    "خروجی گرفتن از پانداس به اکسل.md",
     "تبدیل نوتبوک به اسکریپت پایتون.md",
     "نمودارها در اکسل.md",
     "پیوت تیبل.md",
@@ -202,9 +209,6 @@
     "پاکسازی متون.md",
     "مدیریت داده‌های تکراری.md",
     "مدیریت داده‌های گمشده.md",
-    "بررسی اولیه داده‌ها.md",
-    "Template - Concept.md",
-    "Pandas DataFrame.md",
-    "Sales Data Analysis MOC.md"
+    "Pandas DataFrame.md"
   ]
 }
