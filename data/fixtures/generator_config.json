@@ -1,0 +1,28 @@
+{
+  "start_date": "2023-01-01",
+  "end_date": "2025-12-31",
+  "seed": 42,
+  "customer_count": 100,
+  "product_catalog": [
+    {"product_id": "PROD-001", "name": "Laptop Pro", "category": "Computers", "base_price": 1299.0, "base_cost": 910.0},
+    {"product_id": "PROD-002", "name": "Laptop Air", "category": "Computers", "base_price": 899.0, "base_cost": 620.0},
+    {"product_id": "PROD-003", "name": "Wireless Mouse", "category": "Accessories", "base_price": 39.0, "base_cost": 16.0},
+    {"product_id": "PROD-004", "name": "Mechanical Keyboard", "category": "Accessories", "base_price": 89.0, "base_cost": 41.0},
+    {"product_id": "PROD-005", "name": "27-inch Monitor", "category": "Displays", "base_price": 329.0, "base_cost": 220.0},
+    {"product_id": "PROD-006", "name": "USB-C Hub", "category": "Accessories", "base_price": 59.0, "base_cost": 25.0},
+    {"product_id": "PROD-007", "name": "Noise-Canceling Headphones", "category": "Audio", "base_price": 249.0, "base_cost": 135.0},
+    {"product_id": "PROD-008", "name": "Desktop Speakers", "category": "Audio", "base_price": 119.0, "base_cost": 62.0},
+    {"product_id": "PROD-009", "name": "Webcam HD", "category": "Accessories", "base_price": 79.0, "base_cost": 36.0},
+    {"product_id": "PROD-010", "name": "External SSD", "category": "Storage", "base_price": 149.0, "base_cost": 82.0},
+    {"product_id": "PROD-011", "name": "Tablet", "category": "Mobile", "base_price": 499.0, "base_cost": 330.0},
+    {"product_id": "PROD-012", "name": "Smartphone", "category": "Mobile", "base_price": 799.0, "base_cost": 540.0}
+  ],
+  "error_rates": {
+    "duplicate_id": 0.002,
+    "null_required_field": 0.002,
+    "invalid_price_or_cost": 0.002,
+    "out_of_range_date": 0.002,
+    "excess_return_quantity": 0.002,
+    "broken_foreign_key": 0.002
+  }
+}
