@@ -3,25 +3,9 @@
 from pathlib import Path
 
 from sales_analytics.config import Settings
-from sales_analytics.legacy_pipeline import (
-    PAYMENT_METHOD_MAP,
-    PRODUCT_CATEGORY_MAP,
-    RAW_DATA_PATH,
-    add_calculated_columns,
-    analyze_sales,
-    build_grouped_analysis,
-    clean_data,
-    load_raw_data,
-    run_legacy_pipeline,
-    validate_clean_data,
-)
-
+from sales_analytics.legacy_pipeline import run_legacy_pipeline
 
 PROJECT_ROOT = Path(__file__).resolve().parents[1]
-PROCESSED_DATA_PATH = (
-    PROJECT_ROOT / "data" / "processed" / "cleaned_sales_data.xlsx"
-)
-REPORT_PATH = PROJECT_ROOT / "reports" / "sales_report.xlsx"
 
 
 def main() -> None:

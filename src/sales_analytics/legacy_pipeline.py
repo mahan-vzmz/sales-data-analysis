@@ -13,7 +13,6 @@ from sales_analytics.exports.excel import (
     export_report,
 )
 
-
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 RAW_DATA_PATH = PROJECT_ROOT / "data" / "raw" / "sales_data.xlsx"
 
@@ -59,8 +58,7 @@ def load_raw_data(path: Path = RAW_DATA_PATH) -> pd.DataFrame:
 
     if not path.exists():
         raise FileNotFoundError(
-            f"Raw dataset was not found: {path}\n"
-            "Run src/generate_sales_data.py first."
+            f"Raw dataset was not found: {path}\nRun src/generate_sales_data.py first."
         )
 
     return pd.read_excel(path, sheet_name="Raw_Sales_Data")
@@ -103,10 +101,7 @@ def clean_data(raw_df: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
 
     data["City"] = data["City"].str.title()
     data["Payment_Method"] = (
-        data["Payment_Method"]
-        .str.casefold()
-        .map(PAYMENT_METHOD_MAP)
-        .astype("string")
+        data["Payment_Method"].str.casefold().map(PAYMENT_METHOD_MAP).astype("string")
     )
 
     for column in ["City", "Payment_Method"]:
@@ -143,12 +138,10 @@ def clean_data(raw_df: pd.DataFrame) -> tuple[pd.DataFrame, pd.DataFrame]:
     invalid_price = data["Unit_Price_USD"] <= 0
     invalid_price_count = int(invalid_price.sum())
     product_medians = (
-        data.loc[~invalid_price]
-        .groupby("Product")["Unit_Price_USD"]
-        .median()
+        data.loc[~invalid_price].groupby("Product")["Unit_Price_USD"].median()
     )
-    data.loc[invalid_price, "Unit_Price_USD"] = (
-        data.loc[invalid_price, "Product"].map(product_medians)
+    data.loc[invalid_price, "Unit_Price_USD"] = data.loc[invalid_price, "Product"].map(
+        product_medians
     )
     log.append(
         {
@@ -216,18 +209,16 @@ def validate_clean_data(data: pd.DataFrame) -> None:
     assert (data["Unit_Price_USD"] > 0).all(), "Invalid prices remain"
     assert data["Discount_Rate"].between(0, 1).all(), "Invalid discounts remain"
     assert (data["Order_Date"].dt.year == 2025).all(), "Invalid dates remain"
-    assert data["Category"].eq(
-        data["Product"].map(PRODUCT_CATEGORY_MAP)
-    ).all(), "Product/category mismatches remain"
+    assert data["Category"].eq(data["Product"].map(PRODUCT_CATEGORY_MAP)).all(), (
+        "Product/category mismatches remain"
+    )
 
 
 def add_calculated_columns(clean_df: pd.DataFrame) -> pd.DataFrame:
     """Create auditable financial and time-analysis columns."""
 
     data = clean_df.copy()
-    data["Gross_Sales_USD"] = (
-        data["Quantity"] * data["Unit_Price_USD"]
-    ).round(2)
+    data["Gross_Sales_USD"] = (data["Quantity"] * data["Unit_Price_USD"]).round(2)
     data["Discount_Amount_USD"] = (
         data["Gross_Sales_USD"] * data["Discount_Rate"]
     ).round(2)
@@ -248,15 +239,12 @@ def build_grouped_analysis(
 ) -> pd.DataFrame:
     """Create a reusable grouped sales summary."""
 
-    result = (
-        data.groupby(group_columns, as_index=False)
-        .agg(
-            Units_Sold=("Quantity", "sum"),
-            Orders=("Order_ID", "nunique"),
-            Gross_Sales_USD=("Gross_Sales_USD", "sum"),
-            Discount_Amount_USD=("Discount_Amount_USD", "sum"),
-            Net_Revenue_USD=("Net_Revenue_USD", "sum"),
-        )
+    result = data.groupby(group_columns, as_index=False).agg(
+        Units_Sold=("Quantity", "sum"),
+        Orders=("Order_ID", "nunique"),
+        Gross_Sales_USD=("Gross_Sales_USD", "sum"),
+        Discount_Amount_USD=("Discount_Amount_USD", "sum"),
+        Net_Revenue_USD=("Net_Revenue_USD", "sum"),
     )
 
     money_columns = [
@@ -294,9 +282,11 @@ def analyze_sales(data: pd.DataFrame) -> dict[str, pd.DataFrame]:
     )
     category = build_grouped_analysis(data, ["Category"], total_revenue)
     city = build_grouped_analysis(data, ["City"], total_revenue)
-    monthly = build_grouped_analysis(data, ["Month"], total_revenue).sort_values(
-        "Month"
-    ).reset_index(drop=True)
+    monthly = (
+        build_grouped_analysis(data, ["Month"], total_revenue)
+        .sort_values("Month")
+        .reset_index(drop=True)
+    )
     payment = build_grouped_analysis(
         data,
         ["Payment_Method"],
@@ -356,10 +346,7 @@ def run_legacy_pipeline(settings: Settings) -> PipelineResult:
 
     raw_path = settings.project_root / "data" / "raw" / "sales_data.xlsx"
     cleaned_path = (
-        settings.project_root
-        / "data"
-        / "processed"
-        / "cleaned_sales_data.xlsx"
+        settings.project_root / "data" / "processed" / "cleaned_sales_data.xlsx"
     )
     report_path = settings.report_dir / "sales_report.xlsx"
 
@@ -368,9 +355,7 @@ def run_legacy_pipeline(settings: Settings) -> PipelineResult:
     export_cleaned_workbook(clean_df, cleaning_log, cleaned_path)
 
     persisted_clean_df = pd.read_excel(cleaned_path, sheet_name="Cleaned_Data")
-    persisted_clean_df["Order_Date"] = pd.to_datetime(
-        persisted_clean_df["Order_Date"]
-    )
+    persisted_clean_df["Order_Date"] = pd.to_datetime(persisted_clean_df["Order_Date"])
 
     analysis_df = add_calculated_columns(persisted_clean_df)
     analyses = analyze_sales(analysis_df)

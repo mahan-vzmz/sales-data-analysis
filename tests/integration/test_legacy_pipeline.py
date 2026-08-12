@@ -7,17 +7,19 @@ import pytest
 from sales_analytics.config import Settings
 from sales_analytics.legacy_pipeline import run_legacy_pipeline
 
-
 PROJECT_ROOT = Path(__file__).resolve().parents[2]
 
 
-def test_legacy_pipeline_preserves_v1_results(tmp_path: Path) -> None:
+def test_legacy_pipeline_preserves_v1_results(
+    tmp_path: Path,
+    settings: Settings,
+) -> None:
     raw_path = tmp_path / "data" / "raw" / "sales_data.xlsx"
     raw_path.parent.mkdir(parents=True)
     copy2(PROJECT_ROOT / "data" / "raw" / "sales_data.xlsx", raw_path)
     raw_before = raw_path.read_bytes()
 
-    result = run_legacy_pipeline(Settings.from_root(tmp_path))
+    result = run_legacy_pipeline(settings)
 
     assert result.raw_rows == 1295
     assert result.clean_rows == 1275
