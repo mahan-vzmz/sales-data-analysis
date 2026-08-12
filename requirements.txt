@@ -1,3 +1,2 @@
-pandas==3.0.5
-openpyxl==3.1.5
-jupyter==1.1.1
+# Dependency versions are defined once in pyproject.toml.
+.[dev]
