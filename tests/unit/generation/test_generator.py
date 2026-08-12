@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import json
 from dataclasses import replace
 from hashlib import sha256
 from pathlib import Path
@@ -37,8 +38,12 @@ PRIMARY_KEYS = {
 @pytest.fixture
 def config() -> GeneratorConfig:
     project_root = Path(__file__).parents[3]
-    return GeneratorConfig.from_json(
+    configured = GeneratorConfig.from_json(
         project_root / "data" / "fixtures" / "generator_config.json"
+    )
+    return replace(
+        configured,
+        error_rates={issue_name: 0.0 for issue_name in configured.error_rates},
     )
 
 
@@ -112,3 +117,48 @@ def test_date_range_can_expand_to_five_years_via_config(
 
     assert dataset.calendar_events["date"].iloc[-1].isoformat() == "2027-12-31"
     assert len(dataset.calendar_events) == 1826
+
+
+def test_affinity_products_must_exist_in_catalog(config: GeneratorConfig) -> None:
+    invalid_patterns = replace(
+        config.patterns,
+        affinity_target_product_id="MISSING-PRODUCT",
+    )
+
+    with pytest.raises(ValueError, match="affinity"):
+        replace(config, patterns=invalid_patterns)
+
+
+def test_affinity_requires_room_for_source_and_target(
+    config: GeneratorConfig,
+) -> None:
+    with pytest.raises(ValueError, match="affinity"):
+        replace(
+            config.patterns,
+            items_per_order=(1, 1),
+            affinity_probability=1.0,
+        )
+
+
+def test_promotion_window_must_be_valid_for_every_generated_year(
+    config: GeneratorConfig,
+) -> None:
+    leap_day_pattern = replace(
+        config.patterns,
+        promotion_window=((2, 29), (2, 29)),
+    )
+
+    with pytest.raises(ValueError, match="promotion window"):
+        replace(config, patterns=leap_day_pattern)
+
+
+def test_json_rejects_non_integer_order_growth(tmp_path: Path) -> None:
+    project_root = Path(__file__).parents[3]
+    source_path = project_root / "data" / "fixtures" / "generator_config.json"
+    payload = json.loads(source_path.read_text(encoding="utf-8"))
+    payload["patterns"]["annual_order_growth"] = 1.5
+    invalid_path = tmp_path / "invalid-generator-config.json"
+    invalid_path.write_text(json.dumps(payload), encoding="utf-8")
+
+    with pytest.raises(ValueError, match="annual_order_growth"):
+        GeneratorConfig.from_json(invalid_path)
