@@ -31,7 +31,7 @@ where = ["src"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-addopts = ["--basetemp=build/pytest", "-p", "no:cacheprovider"]
+addopts = ["-p", "no:cacheprovider"]
 
 [tool.ruff]
 target-version = "py311"
