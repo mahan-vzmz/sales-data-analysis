@@ -6,7 +6,6 @@ from pathlib import Path
 
 import pandas as pd
 
-
 RANDOM_SEED = 42
 NUMBER_OF_ORDERS = 800
 
@@ -157,9 +156,7 @@ def inject_data_quality_issues(
         city = dirty.at[index, "City"]
         dirty.at[index, "City"] = f"  {city} "
 
-    for position, index in enumerate(
-        take_indices("city_wrong_case", 8)
-    ):
+    for position, index in enumerate(take_indices("city_wrong_case", 8)):
         city = str(dirty.at[index, "City"])
 
         if position % 2 == 0:
@@ -243,22 +240,16 @@ def inject_data_quality_issues(
         else:
             dirty.at[index, "Category"] = "Unknown"
 
-    duplicate_source_indices = available_indices[
-        cursor : cursor + 8
-    ]
+    duplicate_source_indices = available_indices[cursor : cursor + 8]
 
-    duplicate_rows = dirty.loc[
-        duplicate_source_indices
-    ].copy()
+    duplicate_rows = dirty.loc[duplicate_source_indices].copy()
 
     dirty = pd.concat(
         [dirty, duplicate_rows],
         ignore_index=True,
     )
 
-    issue_counts["exact_duplicate_rows"] = len(
-        duplicate_rows
-    )
+    issue_counts["exact_duplicate_rows"] = len(duplicate_rows)
 
     return dirty, issue_counts
 
@@ -268,9 +259,7 @@ def main() -> None:
 
     clean_data = build_clean_order_lines()
 
-    raw_data, issue_counts = inject_data_quality_issues(
-        clean_data
-    )
+    raw_data, issue_counts = inject_data_quality_issues(clean_data)
 
     OUTPUT_PATH.parent.mkdir(
         parents=True,

@@ -1,6 +1,11 @@
 # Python cache
 __pycache__/
 *.py[cod]
+*.egg-info/
+build/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
 
 # Virtual environments
 .venv/
@@ -19,3 +24,12 @@ Thumbs.db
 # Temporary Excel files
 ~$*.xlsx
 ~$*.xls
+
+# Generated analytics artifacts
+warehouse/*.duckdb
+models/*.joblib
+analytics_dbt/target/
+analytics_dbt/logs/
+
+# Local secrets
+.streamlit/secrets.toml
