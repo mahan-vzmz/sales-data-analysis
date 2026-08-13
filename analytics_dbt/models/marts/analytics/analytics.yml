@@ -1,0 +1,140 @@
+version: 2
+
+models:
+  - name: mart_executive
+    description: "{{ doc('analytics_overview') }} Executive snapshot reconciled to Gold facts."
+    meta:
+      owner: analytics_engineering
+      grain: one row for the current warehouse snapshot
+    columns:
+      - {name: sales_line_count, description: Accepted sales-line count.}
+      - {name: order_count, description: Distinct accepted order count.}
+      - {name: customer_count, description: Distinct purchasing-customer count.}
+      - {name: ordered_quantity, description: Total units ordered.}
+      - {name: gross_sales, description: Sales value before discounts.}
+      - {name: discount_amount, description: Total discount value.}
+      - {name: net_sales, description: Gross sales less discounts.}
+      - {name: cogs, description: Cost of goods sold before returns.}
+      - {name: gross_profit, description: Net sales less cost of goods sold.}
+      - {name: return_event_count, description: Accepted return-event count.}
+      - {name: returned_quantity, description: Total units returned.}
+      - {name: returned_revenue, description: Discount-adjusted revenue reversed by returns.}
+      - {name: reversed_cogs, description: Cost reversed by returns.}
+      - {name: profit_impact, description: Profit removed by accepted returns.}
+      - {name: return_adjusted_revenue, description: Net sales less returned revenue.}
+      - {name: return_adjusted_profit, description: Gross profit less return profit impact.}
+
+  - name: mart_customer_360
+    description: Customer profile and lifetime commercial measures for segmentation and RFM.
+    meta:
+      owner: analytics_engineering
+      grain: one row per accepted customer
+    columns:
+      - name: customer_id
+        description: Stable customer identifier.
+        data_tests: [unique, not_null]
+      - {name: signup_date, description: Customer registration date.}
+      - {name: home_city, description: Customer home city.}
+      - {name: segment, description: Source customer segment.}
+      - {name: first_purchase_date, description: First non-fully-returned order date.}
+      - {name: last_purchase_date, description: Most recent non-fully-returned order date.}
+      - {name: order_count, description: All accepted distinct orders.}
+      - {name: completed_order_count, description: Distinct orders not fully returned.}
+      - {name: ordered_quantity, description: Lifetime units ordered.}
+      - {name: returned_quantity, description: Lifetime units returned.}
+      - {name: gross_sales, description: Lifetime sales before discounts.}
+      - {name: discount_amount, description: Lifetime discount value.}
+      - {name: net_sales, description: Lifetime sales after discounts.}
+      - {name: returned_revenue, description: Lifetime revenue reversed by returns.}
+      - {name: return_adjusted_value, description: Lifetime net sales less returned revenue.}
+      - {name: cogs, description: Lifetime cost of goods sold before returns.}
+      - {name: reversed_cogs, description: Lifetime cost reversed by returns.}
+      - {name: gross_profit, description: Lifetime profit before returns.}
+      - {name: profit_impact, description: Lifetime profit removed by returns.}
+      - {name: return_adjusted_profit, description: Lifetime gross profit after return impact.}
+
+  - name: mart_cohort_base
+    description: Completed-purchase order history for cohort retention analysis.
+    meta:
+      owner: analytics_engineering
+      grain: one row per non-fully-returned customer order
+    columns:
+      - name: order_id
+        description: Stable completed-order identifier.
+        data_tests: [unique, not_null]
+      - {name: customer_id, description: Customer placing the order.}
+      - {name: order_date, description: Calendar date of the order.}
+      - {name: order_month, description: Month containing the order.}
+      - {name: acquisition_cohort_month, description: Month of the customer's first completed purchase.}
+      - {name: months_since_acquisition, description: Whole months between acquisition and this order.}
+      - {name: ordered_quantity, description: Units originally ordered.}
+      - {name: returned_quantity, description: Units subsequently returned.}
+      - {name: retained_quantity, description: Ordered units remaining after returns.}
+      - {name: net_sales, description: Order revenue after discounts.}
+      - {name: returned_revenue, description: Order revenue reversed by returns.}
+      - {name: return_adjusted_value, description: Order net sales less returned revenue.}
+
+  - name: mart_basket_base
+    description: Retained products in completed orders for market-basket analysis.
+    meta:
+      owner: analytics_engineering
+      grain: one row per order and retained product
+    columns:
+      - name: order_id
+        description: Completed-order identifier.
+        data_tests: [not_null]
+      - {name: customer_id, description: Customer placing the order.}
+      - {name: order_date, description: Calendar date of the order.}
+      - name: product_id
+        description: Stable retained-product identifier.
+        data_tests: [not_null]
+      - {name: product_name, description: Human-readable product name.}
+      - {name: category, description: Product reporting category.}
+      - {name: ordered_quantity, description: Units of the product ordered.}
+      - {name: returned_quantity, description: Units of the product returned.}
+      - {name: remaining_quantity, description: Ordered units remaining after returns.}
+      - {name: net_sales, description: Product revenue after discounts.}
+      - {name: returned_revenue, description: Product revenue reversed by returns.}
+      - {name: return_adjusted_value, description: Product net sales less returned revenue.}
+    data_tests:
+      - unique:
+          arguments:
+            column_name: "order_id || '|' || product_id"
+
+  - name: mart_forecasting_base
+    description: Gap-free weekly category demand measures; eventual returns are attributed to the original sale week.
+    meta:
+      owner: analytics_engineering
+      grain: one row per calendar week and product category
+    columns:
+      - name: week_start
+        description: Monday starting the original sales week.
+        data_tests: [not_null]
+      - name: category
+        description: Product reporting category.
+        data_tests: [not_null]
+      - {name: holiday_days, description: Holiday dates in the calendar week.}
+      - {name: campaign_days, description: Campaign dates in the calendar week.}
+      - {name: order_count, description: Distinct orders containing the category.}
+      - {name: ordered_quantity, description: Units ordered in the category.}
+      - {name: returned_quantity, description: Eventual returned units attributed to their original sale week.}
+      - {name: gross_sales, description: Category sales before discounts.}
+      - {name: discount_amount, description: Category discount value.}
+      - {name: net_sales, description: Category sales after discounts.}
+      - {name: returned_revenue, description: Eventual returned revenue attributed to its original sale week.}
+      - {name: return_adjusted_revenue, description: Net sales less returned revenue.}
+      - {name: cogs, description: Category cost of goods sold before returns.}
+      - {name: reversed_cogs, description: Category cost reversed by returns.}
+      - {name: gross_profit, description: Category profit before returns.}
+      - {name: profit_impact, description: Category profit removed by returns.}
+      - {name: return_adjusted_profit, description: Gross profit less return impact.}
+      - {name: average_unit_price, description: Weighted average gross price per ordered unit.}
+      - {name: effective_discount_rate, description: Discount amount divided by gross sales.}
+      - {name: promoted_order_count, description: Distinct category orders using a promotion.}
+      - {name: online_unit_share, description: Share of ordered units sold online.}
+      - {name: store_unit_share, description: Share of ordered units sold in stores.}
+      - {name: marketplace_unit_share, description: Share of ordered units sold through marketplaces.}
+    data_tests:
+      - unique:
+          arguments:
+            column_name: "week_start || '|' || category"

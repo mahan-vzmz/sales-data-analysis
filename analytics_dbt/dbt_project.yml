@@ -21,3 +21,7 @@ models:
         +materialized: view
         +schema: gold
         +tags: ["core"]
+      analytics:
+        +materialized: view
+        +schema: gold
+        +tags: ["analytics"]
