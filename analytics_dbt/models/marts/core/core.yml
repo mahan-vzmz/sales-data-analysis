@@ -1,0 +1,178 @@
+version: 2
+
+models:
+  - name: dim_date
+    description: Gap-free current-load calendar with one row per date.
+    columns:
+      - name: date_key
+        data_tests: [unique, not_null]
+      - name: full_date
+        data_tests: [unique, not_null]
+
+  - name: dim_customer
+    description: Current accepted customer attributes.
+    columns:
+      - name: customer_id
+        data_tests: [unique, not_null]
+
+  - name: dim_product
+    description: Current accepted product attributes.
+    columns:
+      - name: product_id
+        data_tests: [unique, not_null]
+
+  - name: dim_channel
+    description: Sales channels present in accepted orders.
+    columns:
+      - name: channel_key
+        data_tests:
+          - unique
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ["Online", "Store", "Marketplace"]
+
+  - name: dim_geography
+    description: Customer home cities present in the current accepted population.
+    columns:
+      - name: geography_key
+        data_tests: [unique, not_null]
+
+  - name: dim_promotion
+    description: Current accepted promotion definitions.
+    columns:
+      - name: promotion_id
+        data_tests: [unique, not_null]
+
+  - name: dim_payment_method
+    description: Payment methods present in accepted orders.
+    columns:
+      - name: payment_method_key
+        data_tests:
+          - unique
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ["Credit Card", "Debit Card", "Digital Wallet"]
+
+  - name: fact_sales
+    description: One row per accepted order line with rounded currency measures.
+    columns:
+      - name: line_id
+        data_tests: [unique, not_null]
+      - name: date_key
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_date')
+                field: date_key
+      - name: customer_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_customer')
+                field: customer_id
+      - name: product_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_product')
+                field: product_id
+      - name: channel_key
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_channel')
+                field: channel_key
+      - name: geography_key
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_geography')
+                field: geography_key
+      - name: promotion_id
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('dim_promotion')
+                field: promotion_id
+      - name: payment_method_key
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_payment_method')
+                field: payment_method_key
+
+  - name: fact_returns
+    description: One row per accepted return event; profit_impact is the positive amount subtracted from gross profit.
+    columns:
+      - name: return_id
+        data_tests: [unique, not_null]
+      - name: line_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('fact_sales')
+                field: line_id
+      - name: return_date_key
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_date')
+                field: date_key
+      - name: order_date_key
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_date')
+                field: date_key
+      - name: customer_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_customer')
+                field: customer_id
+      - name: product_id
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_product')
+                field: product_id
+      - name: channel_key
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_channel')
+                field: channel_key
+      - name: geography_key
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_geography')
+                field: geography_key
+      - name: promotion_id
+        data_tests:
+          - relationships:
+              arguments:
+                to: ref('dim_promotion')
+                field: promotion_id
+      - name: payment_method_key
+        data_tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_payment_method')
+                field: payment_method_key

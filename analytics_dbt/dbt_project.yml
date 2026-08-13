@@ -16,3 +16,8 @@ models:
     intermediate:
       +materialized: view
       +tags: ["intermediate"]
+    marts:
+      core:
+        +materialized: view
+        +schema: gold
+        +tags: ["core"]
