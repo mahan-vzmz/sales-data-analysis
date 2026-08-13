@@ -505,6 +505,15 @@ def generate_dataset(config: GeneratorConfig) -> GeneratedDataset:
             "reason",
         ),
     )
+    if returns.empty:
+        returns = returns.astype(
+            {
+                "return_id": str,
+                "line_id": str,
+                "returned_quantity": int,
+                "reason": str,
+            }
+        )
     calendar_events = _build_calendar_events(
         config.start_date, config.end_date, config.patterns.promotion_window
     )
