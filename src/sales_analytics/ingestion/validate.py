@@ -3,11 +3,14 @@
 from __future__ import annotations
 
 from dataclasses import dataclass
+from hashlib import sha256
 
+import numpy as np
 import pandas as pd
 import pandera.pandas as pa
 
 from sales_analytics.ingestion.contracts import (
+    SOURCE_TABLES,
     SourceDataset,
     build_source_schemas,
 )
@@ -34,6 +37,8 @@ CROSS_FIELD_COLUMNS = {
 class ValidationResult:
     """Accepted row candidates and all source-contract findings."""
 
+    load_id: str
+    source_manifest_hash: str
     valid_candidates: dict[str, pd.DataFrame]
     failure_cases: pd.DataFrame
     summary: pd.DataFrame
@@ -77,10 +82,25 @@ def validate_sources(dataset: SourceDataset, load_id: str) -> ValidationResult:
         pd.concat(reports, ignore_index=True) if reports else _empty_report()
     )
     return ValidationResult(
+        load_id=load_id,
+        source_manifest_hash=source_manifest_hash(dataset),
         valid_candidates=valid_candidates,
         failure_cases=failure_cases.loc[:, list(REPORT_COLUMNS)],
         summary=pd.DataFrame(summary_rows),
     )
+
+
+def source_manifest_hash(dataset: SourceDataset) -> str:
+    """Fingerprint all raw source content and structure for one dataset."""
+    digest = sha256()
+    for table in SOURCE_TABLES:
+        source = getattr(dataset, table)
+        digest.update(table.encode())
+        digest.update("\x1f".join(map(str, source.columns)).encode())
+        digest.update("\x1f".join(map(str, source.dtypes)).encode())
+        row_hashes = pd.util.hash_pandas_object(source, index=True)
+        digest.update(np.asarray(row_hashes, dtype=np.uint64).tobytes())
+    return digest.hexdigest()
 
 
 def _adapt_failures(
