@@ -12,6 +12,15 @@ from pandas.api.types import is_datetime64_any_dtype, is_numeric_dtype
 from sales_analytics.generation.generator import GeneratedDataset
 
 SourceDataset: TypeAlias = GeneratedDataset
+SOURCE_TABLES = (
+    "customers",
+    "products",
+    "orders",
+    "order_items",
+    "returns",
+    "promotions",
+    "calendar_events",
+)
 
 
 def build_source_schemas(
