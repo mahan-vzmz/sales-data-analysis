@@ -1,0 +1,29 @@
+version: 2
+
+sources:
+  - name: bronze
+    description: Immutable source rows loaded by the Python ingestion layer.
+    schema: bronze
+    tables:
+      - name: customers
+        columns: &lineage_columns
+          - name: _load_id
+            data_tests: [not_null]
+          - name: _source_file
+            data_tests: [not_null]
+          - name: _source_row
+            data_tests: [not_null]
+          - name: _ingested_at
+            data_tests: [not_null]
+      - name: products
+        columns: *lineage_columns
+      - name: orders
+        columns: *lineage_columns
+      - name: order_items
+        columns: *lineage_columns
+      - name: returns
+        columns: *lineage_columns
+      - name: promotions
+        columns: *lineage_columns
+      - name: calendar_events
+        columns: *lineage_columns

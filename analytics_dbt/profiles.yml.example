@@ -1,0 +1,8 @@
+sales_analytics:
+  target: dev
+  outputs:
+    dev:
+      type: duckdb
+      # Relative fallback assumes dbt is invoked from the repository root.
+      path: "{{ env_var('SALES_DUCKDB_PATH', 'warehouse/sales.duckdb') }}"
+      schema: silver

@@ -1,0 +1,80 @@
+version: 2
+
+models:
+  - name: stg_customers
+    description: One normalized row per Bronze customer row; rejected duplicates remain visible.
+    columns:
+      - name: customer_id
+        data_tests: &warn_key_tests
+          - unique:
+              config:
+                severity: warn
+          - not_null:
+              config:
+                severity: warn
+      - name: segment
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ["Consumer", "Corporate", "Small Business"]
+
+  - name: stg_products
+    description: One normalized row per Bronze product row.
+    columns:
+      - name: product_id
+        data_tests: *warn_key_tests
+
+  - name: stg_orders
+    description: One normalized row per Bronze order row.
+    columns:
+      - name: order_id
+        data_tests: *warn_key_tests
+      - name: channel
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ["Online", "Store", "Marketplace"]
+      - name: payment_method
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ["Credit Card", "Debit Card", "Digital Wallet"]
+
+  - name: stg_order_items
+    description: One typed row per Bronze order line with no business aggregation.
+    columns:
+      - name: line_id
+        data_tests: *warn_key_tests
+
+  - name: stg_returns
+    description: One normalized row per Bronze return event.
+    columns:
+      - name: return_id
+        data_tests: *warn_key_tests
+      - name: reason
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ["Damaged", "Changed mind", "Wrong item"]
+
+  - name: stg_promotions
+    description: One normalized row per Bronze promotion definition.
+    columns:
+      - name: promotion_id
+        data_tests: *warn_key_tests
+      - name: promotion_type
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ["holiday"]
+
+  - name: stg_calendar_events
+    description: One normalized row per calendar date.
+    columns:
+      - name: event_date
+        data_tests: *warn_key_tests
+      - name: seasonal_event
+        data_tests:
+          - accepted_values:
+              arguments:
+                values: ["Winter", "Spring", "Summer", "Autumn"]

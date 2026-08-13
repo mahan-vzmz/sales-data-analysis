@@ -30,6 +30,7 @@ warehouse/*.duckdb
 models/*.joblib
 analytics_dbt/target/
 analytics_dbt/logs/
+analytics_dbt/.user.yml
 
 # Local secrets
 .streamlit/secrets.toml
