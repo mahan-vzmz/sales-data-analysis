@@ -27,3 +27,10 @@ sources:
         columns: *lineage_columns
       - name: calendar_events
         columns: *lineage_columns
+
+  - name: audit
+    description: Validation findings emitted by the Python ingestion layer.
+    schema: audit
+    tables:
+      - name: ingestion_runs
+      - name: validation_failures

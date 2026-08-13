@@ -13,3 +13,6 @@ models:
     staging:
       +materialized: view
       +tags: ["staging"]
+    intermediate:
+      +materialized: view
+      +tags: ["intermediate"]
