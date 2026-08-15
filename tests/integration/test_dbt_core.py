@@ -57,9 +57,7 @@ def test_dbt_core_builds_star_schema_and_reconciles_financials(
     silver_result = dbtRunner().invoke(
         ["build", "--select", "staging intermediate", *common_args]
     )
-    core_result = dbtRunner().invoke(
-        ["build", "--select", "marts.core+", *common_args]
-    )
+    core_result = dbtRunner().invoke(["build", "--select", "marts.core+", *common_args])
 
     assert silver_result.success, silver_result.exception
     assert core_result.success, core_result.exception
@@ -109,9 +107,9 @@ def test_dbt_core_builds_star_schema_and_reconciles_financials(
             ).fetchall()
         }
         counts = {
-            model: connection.execute(
-                f"SELECT count(*) FROM gold.{model}"
-            ).fetchone()[0]
+            model: connection.execute(f"SELECT count(*) FROM gold.{model}").fetchone()[
+                0
+            ]
             for model in core_views
         }
         date_coverage = connection.execute(

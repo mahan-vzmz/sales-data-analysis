@@ -49,9 +49,7 @@ def test_dbt_intermediate_excludes_traced_rejections_and_invalid_children(
         "--log-path",
         str(tmp_path / "logs"),
     ]
-    staging_result = dbtRunner().invoke(
-        ["build", "--select", "staging", *common_args]
-    )
+    staging_result = dbtRunner().invoke(["build", "--select", "staging", *common_args])
     intermediate_result = dbtRunner().invoke(
         ["build", "--select", "intermediate", *common_args]
     )
