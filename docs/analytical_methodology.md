@@ -51,3 +51,33 @@ the latest eligible purchase month in the input have a zero rate. Later months
 are omitted from the long-form table and appear blank where the matrix has
 that age for older cohorts. The latest observed month may be partial. An input
 with no eligible purchases produces empty outputs.
+
+## Market basket analysis
+
+`build_basket_rules(baskets)` reads `order_id` and `product_id` from
+`gold.mart_basket_base`. The mart includes products with at least one unit
+retained after returns. Each order is one basket, and each product counts at
+most once per basket regardless of quantity.
+
+| Metric | Definition for A → B |
+| --- | --- |
+| Basket count | Number of baskets containing both A and B |
+| Support | Basket count divided by all baskets represented in the mart |
+| Confidence | Basket count divided by baskets containing A |
+| Lift | Confidence divided by the fraction of all baskets containing B |
+
+Support and lift are the same in both directions. Confidence can differ.
+Lift above 1 indicates that the products occur together more often than
+expected from their individual frequencies.
+
+By default, each product must appear in at least 5 baskets and the pair must
+appear in at least 1% of all baskets. Both thresholds are inclusive. The
+denominator includes every order with a retained product, including
+single-product baskets and baskets containing only rare products. Rules are
+sorted by descending lift, confidence, and support,
+then by product IDs to break ties.
+
+The synthetic integration check requires Laptop Pro → Wireless Mouse to reach
+4% support, 35% confidence, and 1.3 lift. Its lift must also exceed Laptop Pro
+→ Mechanical Keyboard and Laptop Pro → 27-inch Monitor. This check measures
+recovery of a pattern built into the generator.
