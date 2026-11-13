@@ -4,6 +4,7 @@ import json
 from pathlib import Path
 
 from .forecasting import BacktestResult
+from .propensity import PropensityResult
 
 
 def write_forecast_artifact(
@@ -38,6 +39,37 @@ def write_forecast_artifact(
                 orient="records", date_format="iso"
             )
         ),
+    }
+    content = json.dumps(payload, indent=2, allow_nan=False)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(content + "\n", encoding="utf-8")
+
+
+def write_propensity_artifact(
+    path: Path, result: PropensityResult, *, data_version: str
+) -> None:
+    """Save held-out inactivity probabilities and evaluation metadata."""
+    tables = {
+        "validation_metrics": result.validation_metrics,
+        "test_metrics": result.test_metrics,
+        "calibration": result.calibration,
+        "segment_errors": result.segment_errors,
+        "predictions": result.predictions[["customer_id", "cutoff", "probability"]],
+    }
+    payload = {
+        "model": result.champion,
+        "validation_winner": result.validation_winner,
+        "model_version": "1",
+        "data_version": data_version,
+        "target": "inactive_label",
+        "training_cutoff": result.training_cutoff,
+        "horizon_days": result.horizon_days,
+        "features": list(result.features),
+        "selection_metric": "brier",
+        **{
+            name: json.loads(frame.to_json(orient="records", date_format="iso"))
+            for name, frame in tables.items()
+        },
     }
     content = json.dumps(payload, indent=2, allow_nan=False)
     path.parent.mkdir(parents=True, exist_ok=True)
