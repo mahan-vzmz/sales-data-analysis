@@ -55,6 +55,30 @@ st.navigation(
     [
         st.Page(home, title="Home", icon=":material/home:", default=True),
         st.Page(
+            "pages/1_executive_overview.py",
+            title="Executive overview",
+            icon=":material/monitoring:",
+            url_path="executive",
+        ),
+        st.Page(
+            "pages/2_customer_insights.py",
+            title="Customer insights",
+            icon=":material/groups:",
+            url_path="customers",
+        ),
+        st.Page(
+            "pages/3_basket_analysis.py",
+            title="Basket analysis",
+            icon=":material/shopping_basket:",
+            url_path="baskets",
+        ),
+        st.Page(
+            "pages/4_forecasting_what_if.py",
+            title="Forecasting & What-If",
+            icon=":material/query_stats:",
+            url_path="forecast",
+        ),
+        st.Page(
             "app_pages/gold_data.py", title="Gold data", icon=":material/table_chart:"
         ),
     ]

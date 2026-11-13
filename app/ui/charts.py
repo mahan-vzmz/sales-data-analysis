@@ -8,6 +8,17 @@ def show_empty_result() -> None:
     st.info("No rows match this selection.")
 
 
+def show_download(frame: pd.DataFrame, filename: str, *, alt: str) -> None:
+    st.dataframe(frame, hide_index=True, alt=alt)
+    st.download_button(
+        "Download CSV",
+        frame.to_csv(index=False).encode("utf-8"),
+        file_name=filename,
+        mime="text/csv",
+        on_click="ignore",
+    )
+
+
 def show_weekly_units(frame: pd.DataFrame) -> None:
     """Plot ordered units by week and category with accessible labels."""
     if frame.empty:

@@ -14,6 +14,7 @@ from sales_analytics.ingestion.validate import validate_sources
 PROJECT_ROOT = Path(__file__).parents[2]
 DBT_PROJECT_DIR = PROJECT_ROOT / "analytics_dbt"
 MARTS = {
+    "mart_sales_detail",
     "mart_executive",
     "mart_customer_360",
     "mart_cohort_base",
@@ -222,6 +223,7 @@ def test_dbt_analytics_marts_are_documented_and_reconcile_to_core(
 
     assert mart_views == MARTS
     assert mart_counts == {
+        "mart_sales_detail": 77,
         "mart_executive": 1,
         "mart_customer_360": 9,
         "mart_cohort_base": 39,
@@ -229,6 +231,14 @@ def test_dbt_analytics_marts_are_documented_and_reconcile_to_core(
         "mart_forecasting_base": forecast_grid_size,
     }
     assert executive_reconciliation == 0
+    with duckdb.connect(str(warehouse_path)) as connection:
+        assert connection.execute("""
+            select
+                sum(detail.return_adjusted_revenue) = max(summary.return_adjusted_revenue),
+                sum(detail.return_adjusted_profit) = max(summary.return_adjusted_profit),
+                sum(detail.returned_revenue) = max(summary.returned_revenue)
+            from gold.mart_sales_detail detail cross join gold.mart_executive summary
+        """).fetchone() == (True, True, True)
     assert customer_reconciliation == (0, *fact_totals)
     assert cohort_failures == 0
     assert basket_failures == 0

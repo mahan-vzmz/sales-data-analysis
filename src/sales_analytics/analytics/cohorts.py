@@ -1,6 +1,7 @@
 """Monthly customer retention from the Gold cohort mart."""
 
 from dataclasses import dataclass
+from datetime import date
 
 import pandas as pd
 
@@ -13,7 +14,9 @@ class CohortResult:
     long_form: pd.DataFrame
 
 
-def build_retention_matrix(purchases: pd.DataFrame) -> CohortResult:
+def build_retention_matrix(
+    purchases: pd.DataFrame, *, observation_end: date | None = None
+) -> CohortResult:
     """Measure monthly repeat purchases from a complete mart_cohort_base snapshot."""
     activity = purchases.loc[
         purchases["retained_quantity"].gt(0),
@@ -50,6 +53,11 @@ def build_retention_matrix(purchases: pd.DataFrame) -> CohortResult:
     )
 
     latest_month = int(order_month.max()) if not activity.empty else 0
+    if observation_end is not None:
+        end_month = observation_end.year * 12 + observation_end.month
+        if end_month < latest_month:
+            raise ValueError("observation_end cannot precede a completed purchase")
+        latest_month = end_month
     age_count = latest_month - int(cohort_month.min()) + 1 if not activity.empty else 0
     ages = pd.DataFrame({"cohort_age": pd.RangeIndex(age_count)})
     grid = cohorts.merge(ages, how="cross")

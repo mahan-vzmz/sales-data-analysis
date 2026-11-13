@@ -1,6 +1,26 @@
 version: 2
 
 models:
+  - name: mart_sales_detail
+    description: Filterable executive measures at sales-line grain. Returns are attributed to the original purchase date.
+    meta:
+      owner: analytics_engineering
+      grain: one row per accepted sales line
+    columns:
+      - name: line_id
+        description: Original accepted sales-line identifier.
+        data_tests: [unique, not_null]
+      - {name: order_id, description: Order containing the sales line.}
+      - {name: order_date, description: Original purchase date used for sales and returns.}
+      - {name: channel, description: Sales channel of the original order.}
+      - {name: category, description: Reporting category of the purchased product.}
+      - {name: home_city, description: Customer home city recorded for the sale.}
+      - {name: ordered_quantity, description: Units originally ordered.}
+      - {name: returned_quantity, description: Units reversed by accepted returns.}
+      - {name: returned_revenue, description: Revenue reversed by accepted returns.}
+      - {name: return_adjusted_revenue, description: Net sales less revenue reversed by returns.}
+      - {name: return_adjusted_profit, description: Gross profit less return profit impact.}
+
   - name: mart_executive
     description: "{{ doc('analytics_overview') }} Executive snapshot reconciled to Gold facts."
     meta:

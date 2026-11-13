@@ -16,6 +16,12 @@ from sales_analytics.config import Settings
 
 MART_DIMENSIONS: dict[str, dict[str, str]] = {
     "mart_executive": {},
+    "mart_sales_detail": {
+        "date": "order_date",
+        "channel": "channel",
+        "category": "category",
+        "geography": "home_city",
+    },
     "mart_customer_360": {"geography": "home_city"},
     "mart_cohort_base": {"date": "order_date"},
     "mart_basket_base": {"date": "order_date", "category": "category"},
