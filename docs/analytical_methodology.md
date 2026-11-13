@@ -81,3 +81,30 @@ The synthetic integration check requires Laptop Pro → Wireless Mouse to reach
 4% support, 35% confidence, and 1.3 lift. Its lift must also exceed Laptop Pro
 → Mechanical Keyboard and Laptop Pro → 27-inch Monitor. This check measures
 recovery of a pattern built into the generator.
+
+## Customer inactivity proxy
+
+`build_customer_snapshots(events, cutoffs, horizon_days)` expects one row per
+completed order or return event, with `customer_id`, `event_date`, and
+`event_type` (`completed_purchase` or `return`). Supply calendar dates or
+ISO date strings. Resolve integer warehouse keys to calendar dates first.
+Both the features and the label use the date the event became available.
+Use point-in-time purchase events. The current return-adjusted cohort mart
+can retroactively omit a purchase after a later return, so it cannot provide
+historical completion status by itself.
+
+Each cutoff produces one row per customer with a completed purchase by that
+date. Purchase count, recency, and return count use events on or before the
+cutoff. `last_feature_event_date` records the latest date used by a feature.
+A customer with only returns becomes eligible upon their first completed
+purchase. For a cutoff of January 10 and a five-day horizon, a January 10
+purchase belongs to the features. A completed purchase from January 11
+through January 15 sets `inactive_label` to 0. Otherwise it is 1.
+
+Use a positive `horizon_days` chosen for the purchase cycle. The generator
+starts from an annual purchase rate and adds annual growth, so assess gaps
+between completed purchases before choosing the horizon for a model.
+Pass `observation_end` when the data is known to be complete through a date
+beyond the last event. By default the last event date is the conservative
+observation boundary. The function rejects cutoffs with incomplete horizons.
+The label measures inactivity within a fixed window as a proxy for churn.
